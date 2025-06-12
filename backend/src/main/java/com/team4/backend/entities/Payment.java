@@ -32,7 +32,6 @@ public class Payment {
     @Column(name = "payment_date")
     private Instant paymentDate;
 
-    @Lob
     @Column(name = "payment_status")
     private String paymentStatus;
 

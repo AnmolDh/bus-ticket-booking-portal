@@ -71,10 +71,12 @@ public class PaymentController {
     @GetMapping("")
     public ResponseEntity<ApiResponse<PagedResponse<PaymentResponseDto>>> getAllPayments(
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size) {
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(required = false) String bookingStatus,
+            @RequestParam(required = false) String paymentStatus) {
 
         Pageable pageable = PageRequest.of(page, size);
-        Page<Payment> paymentPage = paymentRepository.findAll(pageable);
+        Page<Payment> paymentPage = paymentRepository.findByFilters(paymentStatus, bookingStatus, pageable);
 
         List<PaymentResponseDto> responseDtos = paymentPage.getContent()
                 .stream()
@@ -88,7 +90,6 @@ public class PaymentController {
 
         return ResponseEntity.ok(ApiResponse.success(paged));
     }
-
 
 
     @GetMapping("/{payment_id}")

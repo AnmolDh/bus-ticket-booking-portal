@@ -11,11 +11,13 @@ import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.Instant;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -33,11 +35,14 @@ public class TripController {
 
     @GetMapping("")
     public ResponseEntity<ApiResponse<PagedResponse<TripResponseDto>>> getAllTrips(
+            @RequestParam(required = false) String fromCity,
+            @RequestParam(required = false) String toCity,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
 
         Pageable pageable = PageRequest.of(page, size);
-        Page<Trip> tripPage = tripRepository.findAll(pageable);
+
+        Page<Trip> tripPage = tripRepository.findByFilters(fromCity, toCity, pageable);
 
         List<TripResponseDto> tripResponseDtos = tripPage.getContent()
                 .stream()
