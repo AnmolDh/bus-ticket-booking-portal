@@ -24,7 +24,6 @@ public class Booking {
     private Integer seatNumber;
 
     @ColumnDefault("'Available'")
-    @Lob
     @Column(name = "status")
     private String status;
 
