@@ -187,7 +187,7 @@ public class AgencyController {
                 ));
     }
 
-    @PostMapping("/office")
+    @PostMapping("/offices")
     public ResponseEntity<ApiResponse<AgencyOfficeResponseDto>> addAgencyOffice(@Valid @RequestBody AgencyOfficeRequestDto requestDto) {
         if (requestDto.id() != null && agencyOfficeRepository.existsById(requestDto.id())) {
             return new ResponseEntity<>(
